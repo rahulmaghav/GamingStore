@@ -1,0 +1,10 @@
+com\controller\categories\CategoriesDAOImpl.class
+com\controller\products\ProductsDAO.class
+com\controller\categories\CategoriesDAO.class
+com\controller\products\ProductsDAOImpl.class
+com\controller\profiles\ProfilesDAOImpl.class
+com\controller\categories\Categories.class
+com\controller\HomeController.class
+com\controller\products\Products.class
+com\controller\profiles\Profiles.class
+com\controller\profiles\ProfilesDAO.class
