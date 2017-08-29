@@ -30,7 +30,7 @@ public class Profiles {
 		return active;
 	}
 
-
+  
 	public void setActive(boolean active) {
 		this.active = active;
 	}

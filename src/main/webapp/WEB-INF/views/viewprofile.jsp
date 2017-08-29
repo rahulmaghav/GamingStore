@@ -17,11 +17,39 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		
+		$('#checkBoxAll').click(function() {
+			
+			if($(this).is(":checked"))
+				$('.chkCheckBoxId').prop('checked', true);
+			else
+				$('.chkCheckBoxId').prop('checked', false);
+		});
+	});
+
+</script>
+
+
+
 </head>
 <body>
 <br>
 
 	<h1 style="margin: auto; width: 80%; text-align: center;">View Profile</h1>
+
+	<form method="post" action="${pageContext.request.contextPath}/DeleteProfiles">
+	
+	<input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure you want to delete this profile?');" style="margin-left: 135px;">	
+	
+	<br>
+	<br>
+
+
 
 	<br>
 	
@@ -29,6 +57,7 @@
 	
 		<thead>
 			<tr>
+            <th><input type="checkbox" id="checkBoxAll"></th> 
 			<th>Username</th>
 			<th>Password</th>
 			<th>Email</th>
@@ -43,6 +72,7 @@
 		<tbody>
 			<c:forEach items="${profiledata}" var="x">
 			<tr>
+			<td><input type="checkbox" class="chkCheckBoxId" name="delete" value="${x.getId()}"></td>
 			<td>${x.getUsername()}</td>
 			<td>${x.getPassword()}</td>
 			<td>${x.getEmail()}</td>
@@ -50,7 +80,7 @@
 			<td>${x.getAddress()}</td>
 			<td><a href="ViewOneProfile/${x.getId()}" class="btn btn-primary">View</a></td>
 			<td><a href="UpdateOneProfile/${x.getId()}" class="btn btn-success">Update</a></td>
-			<td><a href="DeleteOneProfile/${x.getId()}" class="btn btn-danger">Delete</a></td>
+			<td><a href="DeleteOneProfile/${x.getId()}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this profile?');">Delete</a></td>
 			</tr>
 			</c:forEach>
 		</tbody>

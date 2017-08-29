@@ -18,13 +18,39 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		
+		$('#checkBoxAll').click(function() {
+			
+			if($(this).is(":checked"))
+				$('.chkCheckBoxId').prop('checked', true);
+			else
+				$('.chkCheckBoxId').prop('checked', false);
+		});
+	});
+
+</script>
 
 </head>
 <body>
 
+<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+
+
 	<br>
+    <br>
+    <br>
 
 	<h1 style="margin: auto; width: 80%; text-align: center;">View Product</h1>
+
+	<form method="post" action="${pageContext.request.contextPath}/DeleteProducts">
+	
+	<input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure you want to delete this product?');" style="margin-left: 135px;">	
+	
+	<br>
+	<br>
 
 	<br>
 	
@@ -32,6 +58,7 @@
 	
 		<thead>
 			<tr>
+			<th><input type="checkbox" id="checkBoxAll"></th> 
 			<th>Name</th>
 			<th>Description</th>
 			<th>Category</th>
@@ -46,6 +73,7 @@
 		<tbody>
 			<c:forEach items="${productdata}" var="x">
 			<tr>
+			<td><input type="checkbox" class="chkCheckBoxId" name="delete" value="${x.getPid()}"></td>
 			<td>${x.getName()}</td>
 			<td>${x.getDescription()}</td>
 			<td>${x.getCategory()}</td>
@@ -53,12 +81,19 @@
 			<td><img src="${x.getImage()}" style="height:50px; width:50px;"></td>
 			<td><a href="ViewOneProduct/${x.getPid()}" class="btn btn-primary">View</a></td>
 			<td><a href="UpdateOneProduct/${x.getPid()}" class="btn btn-success">Update</a></td>
-			<td><a href="DeleteOneProduct/${x.getPid()}" class="btn btn-danger">Delete</a></td>
+			
+			<td><a href="DeleteOneProduct/${x.getPid()}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a></td>
 			</tr>
 			</c:forEach>
 		</tbody>
 	
 	</table>
+
+
+<br>
+<br>
+<br>
+<jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
 
 </body>
 </html>

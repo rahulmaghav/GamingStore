@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/webflow
+http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+	<var name="cart" class="com.controller.HomeController" />
+
+	<action-state id="addCartToOrder">
+        <evaluate expression="cart.LoginTest()" result="cart" />
+        <transition to="viewItemsInCart" on="true" />
+        <transition to="pleaselogin" on="false" />
+    </action-state>
+
+	<view-state id="pleaselogin" view="/WEB-INF/views/loginpage.jsp">
+		<transition to="run" on="goToCart" />
+	</view-state>
+	
+	
+	
+	
+	
+	<view-state id="viewAllProducts" view="/WEB-INF/views/viewproduct.jsp">
+		
+	</view-state>
+	
+	<view-state id="viewItemsInCart" view="/WEB-INF/views/flows/cartpage1.jsp">
+		<transition to="viewAllProducts" on="viewAllProducts" />
+		<transition to="submitBillingAndShipping" on="submitBillingAndShipping" />
+	</view-state>
+
+	<view-state id="submitBillingAndShipping" view="/WEB-INF/views/flows/cartpage2.jsp">
+		<transition to="viewItemsInCart" on="viewItemsInCart" />
+		<transition to="invoice" on="invoice" />
+	</view-state>
+
+
+	<view-state id="invoice" view="/WEB-INF/views/flows/cartpage3.jsp">
+		<transition to="submitBillingAndShipping" on="submitBillingAndShipping" />
+		<transition to="confirmOrder" on="confirmOrder" />
+	</view-state>
+    
+    
+    <end-state id="confirmOrder" view="/WEB-INF/views/flows/cartpage4.jsp"/>
+    
+    
+
+</flow>

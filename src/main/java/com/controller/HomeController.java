@@ -2,6 +2,7 @@ package com.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +41,27 @@ public class HomeController {
 
 	@Autowired
 	ProductsDAO pdao;
+	
 	@Autowired
 	CategoriesDAO cdao;
+	
 	@Autowired
 	ProfilesDAO pdao1;
+
+	public String LoginTest()
+	{
+	    //Date d = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null && !auth.getName().equals("anonymousUser"))
+	    {    
+	    	
+	    	System.out.println(auth.getName());
+	    	//System.out.println(d);
+	    	return "true";
+	    }
+		
+		return "false";
+	}
 	
 	@RequestMapping("/")
 	public ModelAndView index()
@@ -68,15 +88,7 @@ public class HomeController {
 		return m2;
 	}
 	
-	@RequestMapping("/signup")
-	public ModelAndView signup()
-	{
-		ModelAndView m3 = new ModelAndView("signup");
 		
-		return m3;
-	}
-	
-	
 	
 	@RequestMapping("/aboutus")
 	public ModelAndView aboutus()
@@ -118,6 +130,26 @@ public class HomeController {
 		return mv;
 	}
 	
+	
+	@RequestMapping("/DeleteProducts")
+	public ModelAndView DeleteProducts(HttpServletRequest req)
+	{
+		ModelAndView mv = new ModelAndView("redirect:/viewproduct");
+		
+		if(req.getParameterValues("delete") != null)
+		for(String params : req.getParameterValues("delete"))
+		{
+			System.out.println(params);
+			
+			int id  = Integer.parseInt(params);
+			
+			pdao.delete(id);
+		}	
+		
+		return mv;
+	}
+
+
 	
 	@RequestMapping("/UpdateOneProduct/{id}")
 	public ModelAndView UpdateOneProduct(@PathVariable("id")int abc)
@@ -312,6 +344,26 @@ public class HomeController {
 	
 	
 
+	@RequestMapping("/DeleteCategories")
+	public ModelAndView DeleteCategories(HttpServletRequest req)
+	{
+		ModelAndView mv = new ModelAndView("redirect:/viewcategory");
+		
+		if(req.getParameterValues("delete") != null)
+		for(String params : req.getParameterValues("delete"))
+		{
+			System.out.println(params);
+			
+			int id  = Integer.parseInt(params);
+			
+			cdao.delete(id);
+		}	
+		
+		return mv;
+	}
+
+	
+	
 	@RequestMapping("/UpdateOneCategory/{id}")
 	public ModelAndView UpdateOneCategory(@PathVariable("id")int abc)
 	{
@@ -426,6 +478,26 @@ public class HomeController {
 		return mv;
 	}
 	
+
+	
+	@RequestMapping("/DeleteProfiles")
+	public ModelAndView DeleteProfiles(HttpServletRequest req)
+	{
+		ModelAndView mv = new ModelAndView("redirect:/viewprofile");
+		
+		if(req.getParameterValues("delete") != null)
+		for(String params : req.getParameterValues("delete"))
+		{
+			System.out.println(params);
+			
+			int id  = Integer.parseInt(params);
+			
+			pdao1.delete(id);
+		}	
+		
+		return mv;
+	}
+
 	
 
 	@RequestMapping("/UpdateOneProfile/{id}")
