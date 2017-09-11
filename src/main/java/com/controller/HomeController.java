@@ -1,13 +1,24 @@
 package com.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.catalina.connector.Request;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.Authentication;
@@ -18,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,6 +40,8 @@ import com.controller.products.ProductsDAO;
 import com.controller.products.ProductsDAOImpl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.controller.cart.Cart;
+import com.controller.cart.CartDAO;
 import com.controller.categories.Categories;
 import com.controller.categories.CategoriesDAO;
 import com.controller.categories.CategoriesDAOImpl;
@@ -47,6 +61,9 @@ public class HomeController {
 	
 	@Autowired
 	ProfilesDAO pdao1;
+	
+	@Autowired
+	CartDAO cartdao;
 
 	public String LoginTest()
 	{
@@ -56,7 +73,7 @@ public class HomeController {
 	    {    
 	    	
 	    	System.out.println(auth.getName());
-	    	//System.out.println(d);
+	
 	    	return "true";
 	    }
 		
@@ -106,19 +123,77 @@ public class HomeController {
 	
 		m6.addObject("catnames", cdao.getAllCategories());
 		
-		return m6;
+		m6.addObject("Product", new Products());
+		
+			return m6;
 	}
 	
+	
 	@RequestMapping("/viewproduct")
-	public ModelAndView viewproduct()
+	public ModelAndView viewproduct(HttpServletRequest request)
 	{
 		ModelAndView mv = new ModelAndView("viewproduct");
 		
 		mv.addObject("productdata", pdao.getAllProducts());
 		
+		String currUser="";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null && !auth.getName().equals("anonymousUser"))
+	    {    
+	    	
+			if(request.isUserInRole("ROLE_SUPPLIER"))
+	    	{
+
+	        currUser=auth.getName();
+			
+	    	mv.addObject("productdata", pdao.getProductsbySupplierName(currUser));
+	    	return mv;
+	    	}
+	
+	    	
+	    }
+
+		
+	
+		
 		return mv;
 	}
 	
+
+	@RequestMapping("/categoryproducts/{name}")
+	public ModelAndView categoryproducts(HttpServletRequest request,@PathVariable("name")String name1)
+	{
+		ModelAndView mv = new ModelAndView("categoryproducts");
+		
+		System.out.println(name1);
+		System.out.println(pdao.getProductsbyCategoryName(name1));
+		
+		mv.addObject("productdata", pdao.getProductsbyCategoryName(name1));
+		
+		/*String currUser="";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null && !auth.getName().equals("anonymousUser"))
+	    {    
+	    	
+			if(request.isUserInRole("ROLE_SUPPLIER"))
+	    	{
+
+	        currUser=auth.getName();
+			
+	    	mv.addObject("productdata", pdao.getProductsbySupplierName(currUser));
+	    	return mv;
+	    	}
+	
+	    	
+	    }
+
+*/		
+	
+		
+		return mv;
+	}
+	
+
 	
 	@RequestMapping("/DeleteOneProduct/{id}")
 	public ModelAndView DeleteOneProduct(@PathVariable("id")int abc)
@@ -157,11 +232,28 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView("updateproduct");
 	
 		
+		Products p = pdao.getProductsbyId(abc);
 		
-		mv.addObject("productdata",pdao.getProductsbyId(abc));
+//		if( p.getImage() != null && !p.getImage().equals("") )
+//		{
+//			URL url = new URL(p.getImage());
+//			BufferedImage img = ImageIO.read(url);
+//			File f = new File("downloaded.jpg");
+//			ImageIO.write(img, "jpg", f);
+//			
+//			FileInputStream fis = new FileInputStream(f);
+//			
+//			FileItem file = new DiskFileItem("mainFile", Files.probeContentType(f.toPath()), false, f.getName(), (int)f.length(), f.getParentFile());
+//			
+//			p.setTheImage(new CommonsMultipartFile(file));
+//		}
+			
+		
+		mv.addObject("Product",p);
 		
 		mv.addObject("catnames", cdao.getAllCategories());
-		
+	
+		//mv.addObject("Product", new Products());
 		return mv;
 	}
 	
@@ -177,11 +269,26 @@ public class HomeController {
 	
 	
 	@RequestMapping(value="/UpdateProductToDB",method=RequestMethod.POST)
-	public ModelAndView UpdateProductToDB( HttpServletRequest req,  @RequestParam("file") MultipartFile file )
+	public ModelAndView UpdateProductToDB( HttpServletRequest req,@Valid @ModelAttribute("Product") Products p ,BindingResult result)
 	{
 		ModelAndView mv = new ModelAndView("redirect:/viewproduct");
 		
-		String params[] = req.getParameterValues("product");
+		MultipartFile file = p.getTheImage();
+
+		if( result.hasErrors() )
+		{
+			System.out.println( result.getAllErrors() );
+			
+			mv = new ModelAndView("viewproduct");
+			mv.addObject("Product", p);
+			System.out.println("Error");
+			return mv;
+		}
+		
+		
+
+		
+/*		String params[] = req.getParameterValues("product");
 		
 		Products p = new Products();
 		
@@ -192,13 +299,18 @@ public class HomeController {
 			case 0:	p.setPid(Integer.parseInt(params[i])); break;
 			case 1:	p.setName(params[i]); break;
 			case 2:	p.setDescription(params[i]); break;
-			//case 3:	p.setCategory(params[i]); break;
-			case 3:	p.setPrice(params[i]); break;
+			case 3:	p.setCategory(params[i]); break;
+			case 4:	p.setPrice(params[i]); break;
 		
 			}
 		}
-			
+		
+*/		
+		
+		
 		//this.pdao.update(p);
+		
+		System.out.println(p.getImage());
 		
 		try
 		{
@@ -233,6 +345,8 @@ public class HomeController {
 			e.printStackTrace();
 		}
 
+		System.out.println(p.getImage());
+		
 		
 		this.pdao.update(p);
 		
@@ -241,31 +355,138 @@ public class HomeController {
 		return mv;
 	}
 
+
+	
+	
+	@RequestMapping(value="/AddCartToDB",method=RequestMethod.POST)
+	public ModelAndView AddCartToDB( @RequestParam("quantity") int q,@RequestParam("id")int abc  )
+	{
+		ModelAndView mv = new ModelAndView("redirect:/cart");
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		 if (auth != null && !auth.getName().equals("anonymousUser"))
+		 {
+		String currUser=auth.getName();
+		
+		boolean found = false;
+		int id = -1;
+		
+		for( Cart c1 : cartdao.getProductsbyName(currUser) )
+		{
+			if( c1.getUsername().equals(currUser) && c1.getPid()==abc  )
+			{
+				found = true;
+				id = c1.getId();
+				break;
+		    					
+			}
+			
+		}
+		
+		if( found )
+		{
+			Cart c = cartdao.getCartbyId(id);
+
+			Products p=pdao.getProductsbyId(abc);
+			String qty1=p.getQuantity();
+			int i=Integer.parseInt(qty1);
+			i=i-q;
+			String qty = String.valueOf(i);
+			p.setQuantity(qty);
+		    this.pdao.update(p);
+           
+			c.setQuantity(q);
+			this.cartdao.update(c);
+			System.out.println("updated");
+			return mv;
+
+		}
+
+		System.out.println(auth.getName());
+		
+    	Cart c = new Cart();
+		
+    	Products p=pdao.getProductsbyId(abc);
+		String qty1=p.getQuantity();
+		int i=Integer.parseInt(qty1);
+		i=i-q;
+		System.out.println("i "+i);
+		String qty = String.valueOf(i);
+		p.setQuantity(qty);
+		System.out.println(p.getQuantity());
+		this.pdao.update(p);
+	
+		
+		
+		c.setUsername( auth.getName() );
+		c.setPid(abc);
+		c.setQuantity(q);
+		
+		this.cartdao.insert(c);
+		
+		
+		
+		 }
+		 
+	    /*if (auth != null && !auth.getName().equals("anonymousUser"))
+	    {    
+	    	
+	    	System.out.println(auth.getName());
+	
+	    	Cart c = new Cart();
+			
+			c.setUsername( auth.getName() );
+			c.setPid(abc);
+			c.setQuantity(q);
+			
+			this.cartdao.insert(c);
+	    }
+		*/
+		 return mv;
+	}	
+	
+
 	
 	
 	@RequestMapping(value="/AddProductToDB",method=RequestMethod.POST)
-	public ModelAndView AddProductToDB( HttpServletRequest req , @RequestParam("file") MultipartFile file )
+	public ModelAndView AddProductToDB( HttpServletRequest req  ,@Valid @ModelAttribute("Product") Products p ,BindingResult result )
 	{
-		ModelAndView mv = new ModelAndView("addproduct");
+		ModelAndView mv = new ModelAndView("redirect:/addproduct");
 		
-		String params[] = req.getParameterValues("product");
+		MultipartFile file = p.getTheImage();
 		
-		Products p = new Products();
+		if( result.hasErrors() )
+		{
+			System.out.println( result.getAllErrors() );
+			
+			mv = new ModelAndView("addproduct");
+			mv.addObject("Product", p);
+			System.out.println("Error");
+			return mv;
+		}
+		
+		
+		
+		
+		
+		
+		//String params[] = req.getParameterValues("product");
+		
+		//Products p = new Products();
 	
 		
 		
-		for( int i = 0 ; i<params.length ; i++ )
-		{
-			switch(i)
-			{
-			case 0:	p.setName(params[i]); break;
-			case 1:	p.setDescription(params[i]); break;
+		//for( int i = 0 ; i<params.length ; i++ )
+		//{
+			//switch(i)
+			//{
+			//case 0:	p.setName(params[i]); break;
+			//case 1:	p.setDescription(params[i]); break;
 			/*case 2:	p.setCategory(params[i]); break;*/
-			case 2:	p.setPrice(params[i]); break;
-			}
-		}
-			
-		//this.pdao.insert(p);
+			//case 2:	p.setPrice(params[i]); break;
+	//		}
+		//}
+	
 		
 		try
 		{
@@ -293,12 +514,14 @@ public class HomeController {
 			Map uploadResult = cloudinary.uploader().upload(f, ObjectUtils.emptyMap());
 			
 			System.out.println( uploadResult.get("secure_url") );
-			String s=uploadResult.get("secure_url").toString();
-			p.setImage(s);
+		String s=uploadResult.get("secure_url").toString();
+		p.setImage(s);
 		}
 		catch( Exception e ){
 			e.printStackTrace();
 		}
+			
+
 		this.pdao.insert(p);
 		
 		return mv;
@@ -317,6 +540,8 @@ public class HomeController {
 	public ModelAndView addcategory()
 	{
 		ModelAndView m7 = new ModelAndView("addcategory");
+		
+		m7.addObject("Category", new Categories());
 		
 		return m7;
 	}
@@ -415,11 +640,11 @@ public class HomeController {
 
 	
 	@RequestMapping(value="/AddCategoryToDB",method=RequestMethod.POST)
-	public ModelAndView AddCategoryToDB( HttpServletRequest req )
+	public ModelAndView AddCategoryToDB( HttpServletRequest req, @Valid @ModelAttribute("Category") Categories c ,BindingResult result )
 	{
-		ModelAndView mv = new ModelAndView("addcategory");
+		ModelAndView mv = new ModelAndView("redirect:/addcategory");
 		
-		String params[] = req.getParameterValues("category");
+		/*String params[] = req.getParameterValues("category");
 		
 		Categories c = new Categories();
 		
@@ -431,8 +656,16 @@ public class HomeController {
 			case 1:	c.setDescription(params[i]); break;
 			
 			}
+		}*/
+		
+		
+		if( result.hasErrors() )
+		{
+			mv = new ModelAndView("addcategory");
+			mv.addObject("Category", c);
+			System.out.println("Error");
+			return mv;
 		}
-			
 				
 
 		

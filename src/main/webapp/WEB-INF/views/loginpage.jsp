@@ -22,9 +22,18 @@ button {
 </style>
 
 
+<style>
+
+#grad1{
+
+	background: linear-gradient(to top, rgba(25, 115, 175, 0), rgba(25, 115, 175, 1))
+}
+
+</style>
+
 </head>
 
-<body>
+<body id="grad1">
 <jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
  
  <br/>

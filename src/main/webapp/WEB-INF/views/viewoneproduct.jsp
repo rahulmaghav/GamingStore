@@ -10,8 +10,23 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
+<style>
+
+#grad1{
+
+	background: linear-gradient(to top, rgba(25, 115, 175, 0), rgba(25, 115, 175, 1))
+}
+
+</style>
+
 </head>
-<body>
+<body id="grad1">
+<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+ 
+ <br>
+ <br>
+ <br>
 
 	<br>
 
@@ -45,5 +60,24 @@
 	
 	</table>
 	
+	
+	<form action="${pageContext.request.contextPath}/AddCartToDB" method="post">
+	
+		<input type="hidden" value="${productdata.getPid()}" name="id">
+		
+		<br>
+		<br>
+		<input type="number" placeholder="Quantity" class="form-control" name="quantity" style="margin: auto;  width: 10%; text-align: center;">
+		<br>    
+    	<button type="submit" class="btn btn-success" style=" float:left; margin-left:50px; margin-top:23px">AddToCart</button>	
+	
+	</form>
+	
+  <br>
+  <br>
+  <br>
+
+ <jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
+
 </body>
 </html>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+    <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,49 +16,97 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
 
+<style>
+
+#grad1{
+
+	background: linear-gradient(to top, rgba(25, 115, 175, 0), rgba(25, 115, 175, 1))
+}
+
+</style>
 
 </head>
-<body>
-	<br>
+<body id="grad1" ng-app="">
+<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+ 
+ 
+    <br>
+    <br>
+    <br>
 
 	<h1 style="margin: auto; width: 80%; text-align: center;">Add Product</h1>
 
 	<br>
 	
-	<form action="AddProductToDB" method="post" style="margin: auto; width: 80%; text-align: center;" enctype="multipart/form-data">
+	<form:form name="myForm" action="${pageContext.request.contextPath}/AddProductToDB" method="post" style="margin: auto; width: 80%; text-align: center;" enctype="multipart/form-data" modelAttribute="Product" novalidate="novalidate">
 	
-		<input type="text" placeholder="Name" class="form-control" name="product">
-	
+		<form:input  path="name" type="text" placeholder="Name" class="form-control" name="name" ng-model="name" required="required"/>
+	     <form:errors path="name"/>
+	     <span style="color:red" ng-show="myForm.name.$touched && myForm.name.$invalid"> Name Required</span>
+	     
 		<br>
 		
-		<textarea placeholder="Description" class="form-control" name="product"></textarea>
-	
+		<form:textarea path="description" placeholder="Description" class="form-control" name="description" ng-model="description" required="required"></form:textarea>
+	    <form:errors path="description"/>
+		<span style="color:red" ng-show="myForm.description.$touched && myForm.description.$invalid"> Description Required</span>
 		<br>
 		
 		<!-- <input type="text" placeholder="Category" class="form-control" name="product"> -->
 	
-	   <select>
-			<c:forEach items="${catnames }" var="x">
-			<option value="${x.getName()}" title="${x.getDescription()}" >${x.getName()} </option>
+	   <h3>Select Category</h3>
+	   <form:select path="category">
+			<c:forEach  items="${catnames}" var="x">
+			<option value="${x.getName()}"  title="${x.getDescription()}" >${x.getName()} </option>
 		</c:forEach>
-		</select>
-	   
+		</form:select>
+	       <form:errors path="category"/>
+	
+	
+	
 	
 		<br>
-		
-		<input type="number" placeholder="Price" class="form-control" name="product">
-	
+		<br>
 		<br>
 		
-		<input type="file" name="file" accept="image/jpg" class="form-control">
-		
+				
+		<form:input path="price" type="number" placeholder="Price" class="form-control" name="price" ng-model="price" required="required"/>
+	    <form:errors path="price"/>
+	    <span style="color:red" ng-show="myForm.price.$touched && myForm.price.$invalid"> Price Required</span>
 		<br>
 		
-		<input type="submit" value="Add" class="btn btn-danger">
+		<form:input path="theImage" type="file" name="file"  ng-model="file"  accept="image/jpg" class="form-control" required="required" />
+		<form:errors path="theImage"/>
+		<span style="color:red" ng-show="myForm.file.$touched && myForm.file.$invalid"> Image Required</span>
+		<br>
+
+
+		<form:input path="suppliername" type="text" placeholder="Supplier Name" class="form-control" name="suppliername" ng-model="suppliername" required="required"/>
+	    <form:errors path="suppliername"/>
+	    <span style="color:red" ng-show="myForm.suppliername.$touched && myForm.suppliername.$invalid"> Supplier Name Required</span>
+		<br>
+
+        <form:input path="quantity" type="number" placeholder="Quantity" class="form-control" name="quantity" ng-model="quantity" required="required"/>
+	    <form:errors path="quantity"/>
+	    <span style="color:red" ng-show="myForm.quantity.$touched && myForm.quantity.$invalid"> Quantity Required</span>
+		<br>
+		
+		
+		
+		
+		<input type="submit" value="Add" class="btn btn-danger" ng-disabled=" myForm.name.$invalid || myForm.description.$invalid || myForm.price.$invalid || myForm.file.$invalid ">
 	
-	</form>
+	</form:form>
+
+
+
+  <br>
+  <br>
+  <br>
+
+ <jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
 
 </body>
 </html>

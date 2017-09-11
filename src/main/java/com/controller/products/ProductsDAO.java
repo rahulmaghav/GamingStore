@@ -9,7 +9,8 @@ public interface ProductsDAO {
 
 	public List<Products> getAllProducts();
 	public Products getProductsbyId(int pdid);
-	public Products getProductsbyName(String name);
+	public List<Products> getProductsbySupplierName(String name);
+	public List<Products> getProductsbyCategoryName(String name);
 
 	
 }

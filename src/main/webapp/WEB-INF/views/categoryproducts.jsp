@@ -1,18 +1,15 @@
-<%@page import="org.springframework.security.core.GrantedAuthority"%>
-<%@page import="java.util.Collection"%>
-<%@page import="org.springframework.security.core.authority.SimpleGrantedAuthority"%>
 <%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
 <%@page import="org.springframework.security.core.Authentication"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>View Product</title>
+<title>Products</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -21,7 +18,6 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 
 <script type="text/javascript">
 	
@@ -38,7 +34,6 @@
 
 </script>
 
-
 <style>
 
 #grad1{
@@ -51,7 +46,6 @@
 
 </head>
 <body id="grad1">
-
 <jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
 
 
@@ -59,7 +53,7 @@
     <br>
     <br>
 
-	<h1 style="margin: auto; width: 80%; text-align: center;">View Product</h1>
+	<h1 style="margin: auto; width: 80%; text-align: center;">Products</h1>
 
 	<form method="post" action="${pageContext.request.contextPath}/DeleteProducts">
 	
@@ -67,7 +61,7 @@
 			Authentication auth1 = SecurityContextHolder.getContext().getAuthentication();
 		    if (auth1 != null && !auth1.getName().equals("anonymousUser"))
 		    {    
-			if(request.isUserInRole("ROLE_ADMIN") || request.isUserInRole("ROLE_SUPPLIER") ){
+			if(request.isUserInRole("ROLE_ADMIN")){
 		    		%>
 		    
 		<input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure you want to delete this product?');" style="margin-left: 135px;">	
@@ -152,7 +146,7 @@
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		    if (auth != null && !auth.getName().equals("anonymousUser"))
 		    {    
-			if(request.isUserInRole("ROLE_ADMIN")  || request.isUserInRole("ROLE_SUPPLIER") ){
+			if(request.isUserInRole("ROLE_ADMIN") ){
 		    		%>
 		    
 		    		<td><a href="${pageContext.request.contextPath}/UpdateOneProduct/${x.getPid()}" class="btn btn-success">Update</a></td>
@@ -176,6 +170,8 @@
 <br>
 <br>
 <jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
+
+
 
 </body>
 </html>

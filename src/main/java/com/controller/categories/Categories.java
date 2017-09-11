@@ -1,5 +1,9 @@
 package com.controller.categories;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.HashSet;
 import java.util.Set;
 import com.controller.products.*;
@@ -44,7 +48,7 @@ public class Categories {
 		this.catid = catid;
 	}
 	
-	
+	@NotEmpty(message="Name cannot be Empty")
 	public String getName() {
 		return name;
 	}
@@ -54,7 +58,7 @@ public class Categories {
 		this.name = name;
 	}
 	
-	
+	@NotEmpty(message="Description cannot be Empty")
 	public String getDescription() {
 		return description;
 	}

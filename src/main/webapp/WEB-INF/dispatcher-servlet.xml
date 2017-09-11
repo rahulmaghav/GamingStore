@@ -63,7 +63,8 @@ http://www.springframework.org/schema/context/spring-context.xsd">
          <list>
    				<value>com.controller.categories</value>
 				<value>com.controller.products</value>
-				<value>com.controller.profiles</value>   			
+				<value>com.controller.profiles</value>
+				<value>com.controller.cart</value>   			
 		</list>
         
         </property>

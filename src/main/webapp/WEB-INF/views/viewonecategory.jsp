@@ -10,10 +10,24 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-</head>
-<body>
 
-<br>
+<style>
+
+#grad1{
+
+	background: linear-gradient(to top, rgba(25, 115, 175, 0), rgba(25, 115, 175, 1))
+}
+
+</style>
+
+</head>
+<body id="grad1">
+<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+ 
+ <br>
+ <br>
+ <br>
+ <br>
 
 	<h1 style="margin: auto; width: 80%; text-align: center;">View One Category</h1>
 
@@ -39,8 +53,14 @@
 		</tbody>
 	
 	</table>
-	
+	<a href="${pageContext.request.contextPath}/categoryproducts/${categorydata.getName()}"" class="btn btn-primary">View Products</a>
+	<%-- <input type="button" class="btn btn-success" style=" float:left; margin-left:50px; margin-top:23px"><a href="categoryproducts/${categorydata.getName()}">View Products</a></input>
+ --%>
+  <br>
+  <br>
+  <br>
 
+ <jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
 
 </body>
 </html>

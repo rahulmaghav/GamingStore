@@ -50,15 +50,15 @@
     <div class="collapse navbar-collapse" id="myNavbar">
     
     <ul class="nav navbar-nav">   
-     <li><a href="aboutus">About Us</a></li>
-     <li><a href="contactus">Contact Us</a></li>
+     <li><a href="${pageContext.request.contextPath}/aboutus">About Us</a></li>
+     <li><a href="${pageContext.request.contextPath}/contactus">Contact Us</a></li>
     </ul>  
       
 
       <ul class="nav navbar-nav navbar-right">
-      <li><a href="#" class="fa fa-facebook"></a></li>
-      <li><a href="#" class="fa fa-twitter"></a></li>
-      <li><a href="#" class="fa fa-google"></a></li>
+      <li><a href="https://www.facebook.com/" class="fa fa-facebook"></a></li>
+      <li><a href="https://twitter.com/" class="fa fa-twitter"></a></li>
+      <li><a href="https://plus.google.com/" class="fa fa-google"></a></li>
 
       </ul>
 

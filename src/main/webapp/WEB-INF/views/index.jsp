@@ -13,14 +13,25 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+
+#grad1{
+
+	background: linear-gradient(to top, rgba(25, 115, 175, 0), rgba(25, 115, 175, 1))
+}
+
+</style>
+
 </head>
-<body >
+
+<body id="grad1">
 
 <jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
  
- <br/>
- <br/>
- <br/>
+ <br>
+ <br>
+ <br>
  
   <div class="container">
   
@@ -83,25 +94,25 @@
 
 
 <div class="container">
-  <table style="width:100%">
+  <table style="width:110%">
   <tr>
   
-  <th><img class="img-responsive"  src="Resources/images/callofduty.jpg" alt="Call of Duty" width="200" height="345"></th> 
+  <th><img class="img-responsive"  src="Resources/images/callofduty.jpg" alt="Call of Duty"  style="border-radius: 50%; width:80%; height:30%;"></th> 
   
-  <th><img class="img-responsive"  src="Resources/images/nfs.jpg"  alt="NeedForSpeed" width="200" height="345"></th> 
+  <th><img class="img-responsive"  src="Resources/images/nfs.jpg"  alt="NeedForSpeed" style="border-radius: 50%; width:80%; height:30%;"></th> 
   
-  <th><img class="img-responsive"  src="Resources/images/fifa17.jpg"  alt="FIFA 17" width="200" height="345"></th> 
+  <th><img class="img-responsive"  src="Resources/images/fifa17.jpg"  alt="FIFA 17" style="border-radius: 50%; width:80%; height:30%;"></th> 
    
    </tr>
    </table>
 
 </div>
   
-  <br></br>
-
-
-
-
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 
  <jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
 

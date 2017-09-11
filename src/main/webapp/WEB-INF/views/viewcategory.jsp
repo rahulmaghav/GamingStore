@@ -1,3 +1,5 @@
+<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
+<%@page import="org.springframework.security.core.Authentication"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
   <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
@@ -34,8 +36,22 @@
 
 
 
+<style>
+
+#grad1{
+
+	background: linear-gradient(to top, rgba(25, 115, 175, 0), rgba(25, 115, 175, 1))
+}
+
+</style>
+
 </head>
-<body>
+<body id="grad1">
+<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+ 
+ <br>
+ <br>
+ <br>
 
 
 	<br>
@@ -45,8 +61,24 @@
 
 	<form method="post" action="${pageContext.request.contextPath}/DeleteCategories">
 	
-	<input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure you want to delete this category?');" style="margin-left: 135px;">	
 	
+	<%
+			Authentication auth1 = SecurityContextHolder.getContext().getAuthentication();
+		    if (auth1 != null && !auth1.getName().equals("anonymousUser"))
+		    {    
+			if(request.isUserInRole("ROLE_ADMIN") ){
+		    		%>
+		    
+	<input type="submit" class="btn btn-danger" value="Delete" onclick="return confirm('Are you sure you want to delete this category?');" style="margin-left: 135px;">	
+
+		    		
+		    		<%
+		    	}
+		    }
+			%>
+	
+	
+		
 	<br>
 	<br>
 
@@ -71,15 +103,36 @@
 			<td><input type="checkbox" class="chkCheckBoxId" name="delete" value="${x.getCatid()}"></td>
 			<td>${x.getName()}</td>
 			<td>${x.getDescription()}</td>
-			<td><a href="ViewOneCategory/${x.getCatid()}" class="btn btn-primary">View</a></td>
-			<td><a href="UpdateOneCategory/${x.getCatid()}" class="btn btn-success">Update</a></td>
-			<td><a href="DeleteOneCategory/${x.getCatid()}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">Delete</a></td>
+			<td><a href="${pageContext.request.contextPath}/ViewOneCategory/${x.getCatid()}" class="btn btn-primary">View</a></td>
+
+            <%
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    if (auth != null && !auth.getName().equals("anonymousUser"))
+		    {    
+		    	if(request.isUserInRole("ROLE_ADMIN") ){
+		    		%>
+		    
+
+			<td><a href="${pageContext.request.contextPath}/UpdateOneCategory/${x.getCatid()}" class="btn btn-success">Update</a></td>
+			<td><a href="${pageContext.request.contextPath}/DeleteOneCategory/${x.getCatid()}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this category?');">Delete</a></td>
+		    		
+		    		<%
+		    	}
+		    }
+			%>
+
+
 			</tr>
 			</c:forEach>
 		</tbody>
 	
 	</table>
 
+  <br>
+  <br>
+  <br>
+
+ <jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
 
 </body>
 </html>

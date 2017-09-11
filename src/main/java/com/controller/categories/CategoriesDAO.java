@@ -11,7 +11,6 @@ public interface CategoriesDAO {
 
 	public List<Categories> getAllCategories();
 	public Categories getCategoriesbyId(int cid);
-	public Categories getCategoriesbyName(String name);
 
 	
 }

@@ -13,7 +13,7 @@ http://www.springframework.org/schema/webflow/spring-webflow.xsd">
     </action-state>
 
 	<view-state id="pleaselogin" view="/WEB-INF/views/loginpage.jsp">
-		<transition to="run" on="goToCart" />
+		<transition to="viewItemsInCart" on="goToCart" />
 	</view-state>
 	
 	

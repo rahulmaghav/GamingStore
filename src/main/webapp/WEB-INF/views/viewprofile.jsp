@@ -35,9 +35,24 @@
 </script>
 
 
+<style>
+
+#grad1{
+
+	background: linear-gradient(to top, rgba(25, 115, 175, 0), rgba(25, 115, 175, 1))
+}
+
+</style>
+
 
 </head>
-<body>
+<body id="grad1">
+<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+ 
+ <br>
+ <br>
+ <br>
+
 <br>
 
 	<h1 style="margin: auto; width: 80%; text-align: center;">View Profile</h1>
@@ -78,15 +93,21 @@
 			<td>${x.getEmail()}</td>
 			<td>${x.getPhone()}</td>
 			<td>${x.getAddress()}</td>
-			<td><a href="ViewOneProfile/${x.getId()}" class="btn btn-primary">View</a></td>
-			<td><a href="UpdateOneProfile/${x.getId()}" class="btn btn-success">Update</a></td>
-			<td><a href="DeleteOneProfile/${x.getId()}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this profile?');">Delete</a></td>
+			<td><a href="${pageContext.request.contextPath}/ViewOneProfile/${x.getId()}" class="btn btn-primary">View</a></td>
+			<td><a href="${pageContext.request.contextPath}/UpdateOneProfile/${x.getId()}" class="btn btn-success">Update</a></td>
+			<td><a href="${pageContext.request.contextPath}/DeleteOneProfile/${x.getId()}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this profile?');">Delete</a></td>
 			</tr>
 			</c:forEach>
 		</tbody>
 	
 	</table>
 
+  <br>
+  <br>
+  <br>
+  <br>
+
+ <jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
 
 </body>
 </html>

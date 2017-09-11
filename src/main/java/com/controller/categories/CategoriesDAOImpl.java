@@ -45,10 +45,6 @@ public class CategoriesDAOImpl implements CategoriesDAO {
 
 	}
 
-	public Categories getCategoriesbyName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 	

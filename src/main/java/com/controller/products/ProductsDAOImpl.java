@@ -43,9 +43,15 @@ public class ProductsDAOImpl implements ProductsDAO {
 		return (Products)this.sessionFactory.getCurrentSession().createQuery("from Products where pid=:id").setInteger("id", pdid).list().get(0);
 	}
 
-	public Products getProductsbyName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Products> getProductsbySupplierName(String name) {
+		return (List<Products>)this.sessionFactory.getCurrentSession().createQuery("from Products where suppliername=:name").setString("name", name).list();
+
 	}
 
+	public List<Products> getProductsbyCategoryName(String name) {
+		return (List<Products>)this.sessionFactory.getCurrentSession().createQuery("from Products where category=:name").setString("name", name).list();
+
+	}
+
+	
 }

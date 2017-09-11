@@ -18,18 +18,33 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
-</head>
-<body ng-app="">
+<style>
 
-	<br>
+#grad1{
+
+	background: linear-gradient(to top, rgba(25, 115, 175, 0), rgba(25, 115, 175, 1))
+}
+
+</style>
+
+
+</head>
+<body  id="grad1" ng-app="">
+
+<jsp:include page="/WEB-INF/views/header.jsp"></jsp:include>
+ 
+ 
+    <br>
+    <br>
+    <br>
 
 	<h1 style="margin: auto; width: 80%; text-align: center;">Add Profile</h1>
 
 	<br>
 	
-	<form:form name="myForm" action="AddProfileToDB" method="post" style="margin: auto; width: 80%; text-align: center;" modelAttribute="Profile" novalidate >
+	<form:form name="myForm" action="${pageContext.request.contextPath}/AddProfileToDB" method="post" style="margin: auto; width: 80%; text-align: center;" modelAttribute="Profile"  novalidate="novalidate" >
 	
-		<form:input path="username" type="text" placeholder="UserName" class="form-control" name="username" ng-model="username" ng-minlength="5" ng-maxlength="20" ng-pattern="/^[a-zA-Z0-9_]*$/" required/>
+		<form:input path="username" type="text" placeholder="UserName" class="form-control" name="username" ng-model="username" ng-minlength="5" ng-maxlength="20" ng-pattern="/^[a-zA-Z0-9_]*$/" required="required"/>
 	    <form:errors path="username"/>
 	     <span style="color:red" ng-show="myForm.username.$touched && myForm.username.$invalid"> Username Required</span>
 
@@ -39,7 +54,7 @@
 	    
 		<br>
 		
-		<form:input path="password" type="password" placeholder="Password" class="form-control" name="password" ng-model="password" ng-minlength="8" ng-maxlength="20"   ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@!%*?&_])[A-Za-z0-9$@!%*?&_]*$/" required/>
+		<form:input path="password" type="password" placeholder="Password" class="form-control" name="password" ng-model="password" ng-minlength="8" ng-maxlength="20"   ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@!%*?&_])[A-Za-z0-9$@!%*?&_]*$/" required="required"/>
 	    <form:errors path="password"/>
 	
 	<span style="color:red" ng-show="myForm.password.$touched && myForm.password.$invalid">Password is required.</span>
@@ -57,7 +72,7 @@
 		
 		<br>
 		
-		<form:input path="email" type="email" placeholder="Email" class="form-control" name="email" ng-model="email"  ng-pattern="/^[[a-zA-Z0-9]{2,20}@[a-zA-Z]{2,20}\.[a-zA-Z]{2,20}(\.[a-zA-Z]{2,20}){0,1}$/" required/>
+		<form:input path="email" type="email" placeholder="Email" class="form-control" name="email" ng-model="email"  ng-pattern="/^[[a-zA-Z0-9]{2,20}@[a-zA-Z]{2,20}\.[a-zA-Z]{2,20}(\.[a-zA-Z]{2,20}){0,1}$/" required="required"/>
 	    <form:errors path="email"/>
 		
        <span style="color:red" ng-show="myForm.email.$touched && myForm.email.$invalid">Email is required.</span>
@@ -67,7 +82,7 @@
 		
 		<br>
 		
-		<form:input path="phone" type="number" placeholder="Phone" class="form-control" name="phone" ng-model="phone" ng-minlength="10" ng-maxlength="10" ng-pattern="/^[789][0-9]*$/" required/>
+		<form:input path="phone" type="number" placeholder="Phone" class="form-control" name="phone" ng-model="phone" ng-minlength="10" ng-maxlength="10" ng-pattern="/^[789][0-9]*$/" required="required"/>
 	    <form:errors path="phone"/>
          <span style="color:red" ng-show="myForm.phone.$touched && myForm.phone.$invalid">Phone Number is required.</span>
 
@@ -80,7 +95,7 @@
 
 		<br>
 		
-		<form:textarea path="address" placeholder="Address" class="form-control" name="address" ng-model="address" ng-minlength="5" ng-pattern="/^[A-Za-z0-9$@!%*?&_]*$/" required></form:textarea>
+		<form:textarea path="address" placeholder="Address" class="form-control" name="address" ng-model="address" ng-minlength="5" ng-pattern="/^[A-Za-z0-9$@!%*?&_]*$/" required="required"></form:textarea>
 		<form:errors path="address"/>
 		<span style="color:red" ng-show="myForm.address.$touched && myForm.address.$invalid">Address is required.</span>
 
@@ -89,10 +104,18 @@
         
          <span style="color:red" ng-show="myForm.address.$error.pattern">
        Invalid Address</span>
-
-
-
+ 
+       <br>
+       <br>
+       
+       <h3>Select ROLE</h3>
+        <form:select path="role">
+			<option value="ROLE_USER">ROLE_USER</option>
+			<option value="ROLE_SUPPLIER">ROLE_SUPPLIER</option>
+		</form:select>
+	    <form:errors path="role"/>
 		
+		<br>
 		<br>
 		
 		<input type="submit" value="Add" class="btn btn-danger" ng-disabled=" myForm.username.$invalid || myForm.password.$invalid || myForm.email.$invalid || myForm.phone.$invalid || myForm.address.$invalid"/>
@@ -103,6 +126,15 @@
 
 
 
+  <br>
+  <br>
+  <br>
+
+
+
+
+
+ <jsp:include page="/WEB-INF/views/footer.jsp"></jsp:include>
 
 </body>
 </html>

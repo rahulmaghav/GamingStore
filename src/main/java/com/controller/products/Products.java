@@ -1,5 +1,9 @@
 package com.controller.products;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name="Products_Information")
@@ -14,8 +18,44 @@ public class Products {
 	private String category;
 	private String price;
 	private String image;
+	private String suppliername;
+	private String quantity;
 	
-	private boolean active;
+	
+	@Transient
+	private MultipartFile theImage;
+	
+	
+	
+	
+	
+	public String getSuppliername() {
+		return suppliername;
+	}
+
+	public void setSuppliername(String suppliername) {
+		this.suppliername = suppliername;
+	}
+
+	public String getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
+	}
+
+	
+	public MultipartFile getTheImage() {
+		return theImage;
+	}
+
+	public void setTheImage(MultipartFile theImage) {
+		this.theImage = theImage;
+	}
+
+
+	private boolean active=true;
 	
 	public Products() {
 		
@@ -29,8 +69,6 @@ public class Products {
 		this.active = active;
 	}
 	
-	
-
 	public String getImage() {
 		return image;
 	}
@@ -54,7 +92,7 @@ public class Products {
 		this.pid = pid;
 	}
 	
-	
+	@NotEmpty(message="Name cannot be Empty")
 	public String getName() {
 		return name;
 	}
@@ -64,7 +102,7 @@ public class Products {
 		this.name = name;
 	}
 	
-	
+	@NotEmpty(message="Description cannot be Empty")
 	public String getDescription() {
 		return description;
 	}
@@ -84,7 +122,7 @@ public class Products {
 		this.category = category;
 	}
 	
-	
+	@NotEmpty(message="Price cannot be Empty")
 	public String getPrice() {
 		return price;
 	}
