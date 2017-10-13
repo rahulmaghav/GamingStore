@@ -116,8 +116,27 @@
 			
 			<th>Quantity</th>
 			<th>View</th>
-			<th>Update</th>
+			
+			
+<%
+			Authentication auth6 = SecurityContextHolder.getContext().getAuthentication();
+		    if (auth6 != null && !auth6.getName().equals("anonymousUser"))
+		    {    
+			if(request.isUserInRole("ROLE_ADMIN")  || request.isUserInRole("ROLE_SUPPLIER") ){
+		    		%>
+		    
+				<th>Update</th>
+    			<th>Delete</th>
+	    		
+		    		<%
+		    	}
+		    }
+			%>
+
+<!-- 			<th>Update</th>
 			<th>Delete</th>
+ -->			
+			
 			</tr>
 		</thead>
 		

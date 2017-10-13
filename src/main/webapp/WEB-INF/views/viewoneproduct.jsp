@@ -43,7 +43,7 @@
 			<th>Category</th>
 			<th>Price</th>
 			<th>Image</th>
-			
+			<th>Quantity</th>
 			</tr>
 		</thead>
 		
@@ -51,9 +51,10 @@
 			<tr>
 			<td>${productdata.getName()}</td>
 			<td>${productdata.getDescription()}</td>
-			<th>${productdata.getCategory()}</th>
-			<th>${productdata.getPrice()}</th>
-			<th><img src="${productdata.getImage()}" style="height:50px; width:50px;"></th>
+			<td>${productdata.getCategory()}</td>
+			<td>${productdata.getPrice()}</td>
+			<td><img src="${productdata.getImage()}" style="height:50px; width:50px;"></td>
+			<td>${productdata.getQuantity()}</td>
 			</tr>
 			
 		</tbody>

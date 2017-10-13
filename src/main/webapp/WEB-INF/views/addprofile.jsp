@@ -99,10 +99,10 @@
 		<form:errors path="address"/>
 		<span style="color:red" ng-show="myForm.address.$touched && myForm.address.$invalid">Address is required.</span>
 
-          <span style="color:red" ng-show="myForm.address.$error.minlength">
+        <span style="color:red" ng-show="myForm.address.$error.minlength">
         Your Address Should Contain Atleast 5 Characters</span>
         
-         <span style="color:red" ng-show="myForm.address.$error.pattern">
+       <span style="color:red" ng-show="myForm.address.$error.pattern">
        Invalid Address</span>
  
        <br>

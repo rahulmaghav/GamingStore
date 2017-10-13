@@ -390,7 +390,12 @@ public class HomeController {
 			Products p=pdao.getProductsbyId(abc);
 			String qty1=p.getQuantity();
 			int i=Integer.parseInt(qty1);
-			i=i-q;
+			
+			int x = c.getQuantity();
+			
+			i=i+x-q;
+			
+			
 			String qty = String.valueOf(i);
 			p.setQuantity(qty);
 		    this.pdao.update(p);

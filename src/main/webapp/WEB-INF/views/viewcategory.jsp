@@ -92,8 +92,27 @@
 			<th>Name</th>
 			<th>Description</th>
 			<th>View</th>
-			<th>Update</th>
+            <%
+			Authentication auth2 = SecurityContextHolder.getContext().getAuthentication();
+		    if (auth2 != null && !auth2.getName().equals("anonymousUser"))
+		    {    
+		    	if(request.isUserInRole("ROLE_ADMIN") ){
+		    		%>
+		    
+
+				<th>Update</th>
+			    <th>Delete</th>
+	    		
+		    		<%
+		    	}
+		    }
+			%>
+
+
+
+<!-- 			<th>Update</th>
 			<th>Delete</th>
+ -->
 			</tr>
 		</thead>
 		
