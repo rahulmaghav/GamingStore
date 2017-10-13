@@ -39,13 +39,19 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 
   <!-- DataSource -->
     
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 	   	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 	   	<property name="url" value="jdbc:mysql://localhost:3306/gaming"/>
 	   	<property name="username" value="root"/>
 	   	<property name="password" value="root"/>	
    	</bean>
-    
+     -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	   	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	   	<property name="url" value="jdbc:mysql://mysql5.gear.host:3306/gaming"/>
+	   	<property name="username" value="gaming"/>
+	   	<property name="password" value="Nq7O-F?BSq4N"/>	
+   	</bean>
     
  
     <!-- Hibernate SessionFactory -->
