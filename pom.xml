@@ -197,10 +197,9 @@
     
   </dependencies>
   <build>
-    <finalName>Gamingstore</finalName>
-  
-  <plugins>
-  	 <plugin>
+        <finalName>Gamingstore</finalName>
+     <plugins>
+     <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-dependency-plugin</artifactId>
     <version>2.3</version>
@@ -221,6 +220,6 @@
         </execution>
     </executions>
 </plugin>
-  </plugins>
-  </build>
+     </plugins>
+    </build>
 </project>
